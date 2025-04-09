@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda del Juego</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: white;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #a0522d; /* color madera */
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            background-color: #deb887; /* tono madera más claro */
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .sidebar button:hover {
+            background-color: #cd853f;
+        }
+
+        .main {
+            flex: 1;
+            background-color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .producto {
+            border: 2px solid #ccc;
+            padding: 15px;
+            margin: 15px;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .producto h3 {
+            margin: 10px 0;
+        }
+
+        .producto p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .soldado-img {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h1>TIENDA</h1>
+        <button onclick="mostrar('skins')">Skins</button>
+        <button onclick="mostrar('vidas')">Vidas</button>
+        <button onclick="mostrar('armas')">Armas</button>
+        <button onclick="mostrar('extras')">Extras</button>
+    </div>
+
+    <div class="main">
+        <img src="soldado.png" alt="Guerrero" class="soldado-img">
+
+        <div id="productos">
+            <!-- Aquí se muestran los productos -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const productos = {
+        skins: [
+            {nombre: "Traje Ninja", precio: 40},
+            {nombre: "Armadura Oscura", precio: 60}
+        ],
+        vidas: [
+            {nombre: "Pack de 5 vidas", precio: 25},
+            {nombre: "Pack de 10 vidas", precio: 45}
+        ],
+        armas: [
+            {nombre: "Espada mágica", precio: 50},
+            {nombre: "Rifle de plasma", precio: 75}
+        ],
+        extras: [
+            {nombre: "Mapa especial", precio: 20},
+            {nombre: "Acceso anticipado", precio: 30}
+        ]
+    };
+
+    function mostrar(seccion) {
+        const contenedor = document.getElementById("productos");
+        contenedor.innerHTML = "";
+
+        productos[seccion].forEach(p => {
+            contenedor.innerHTML += `
+                <div class="producto">
+                    <h3>${p.nombre}</h3>
+                    <p>${p.precio} monedas</p>
+                </div>
+            `;
+        });
+    }
+
+    // Mostrar la sección por defecto al cargar
+    window.onload = () => mostrar('skins');
+</script>
+</body>
+</html>

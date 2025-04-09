@@ -5,7 +5,7 @@ import edu.upc.dsa.ProductManagerImpl;
 import edu.upc.dsa.exceptions.PasswordNotMatchException;
 import edu.upc.dsa.exceptions.UsuarioNotFoundException;
 import edu.upc.dsa.exceptions.UsuarioYaExisteException;
-import edu.upc.dsa.models.Usuario;
+import edu.upc.dsa.models.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -75,5 +75,72 @@ public class UsuarioService {
             return Response.status(401).entity("{\"error\":\"Contraseña incorrecta\"}").build();
         }
     }
+
+    @GET
+    @ApiOperation(value = "Listar todos los productos", notes = "Devuelve todos los productos disponibles en la tienda")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Producto.class, responseContainer = "List")
+    })
+    @Path("/productos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllProductos() {
+        return Response.status(200).entity(this.pm.listarProductos()).build();
+    }
+
+    @GET
+    @ApiOperation(value = "Buscar productos por nombre", notes = "Devuelve productos que contienen el nombre buscado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Producto.class, responseContainer = "List")
+    })
+    @Path("/productos/buscar")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarProductosPorNombre(@QueryParam("nombre") String nombre) {
+        return Response.status(200).entity(this.pm.buscarProductosPorNombre(nombre)).build();
+    }
+
+    @GET
+    @ApiOperation(value = "Buscar producto por ID", notes = "Devuelve un producto con ID específico")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Producto.class),
+            @ApiResponse(code = 404, message = "Producto no encontrado")
+    })
+    @Path("/productos/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarProductoPorId(@PathParam("id") String idProducto) {
+        Producto p = this.pm.buscarProductoPorId(idProducto);
+        if (p != null)
+            return Response.status(200).entity(p).build();
+        else
+            return Response.status(404).entity("{\"error\":\"Producto no encontrado\"}").build();
+    }
+
+    @GET
+    @ApiOperation(value = "Listar productos de una sección", notes = "Devuelve los productos de una sección específica")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Producto.class, responseContainer = "List")
+    })
+    @Path("/productos/seccion/{nombre}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarProductosPorSeccion(@PathParam("nombre") String nombreSeccion) {
+        return Response.status(200).entity(this.pm.listarProductosPorSeccion(nombreSeccion)).build();
+    }
+
+    @POST
+    @ApiOperation(value = "Comprar un producto", notes = "Realiza una compra de un producto por parte de un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Compra realizada con éxito"),
+            @ApiResponse(code = 404, message = "Usuario o producto no encontrado")
+    })
+    @Path("/productos/comprar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response comprarProducto(CompraRequest request) {
+        boolean comprado = this.pm.comprarProducto(request.getIdProducto(), request.getNombreUsuario());
+        if (comprado)
+            return Response.status(200).entity("{\"mensaje\":\"Producto comprado con éxito\"}").build();
+        else
+            return Response.status(404).entity("{\"error\":\"Usuario o producto no encontrado\"}").build();
+    }
+
 
 }
