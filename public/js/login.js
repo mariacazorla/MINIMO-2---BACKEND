@@ -28,10 +28,19 @@ async function enviarFormulario(event, tipo) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(datos)
     });
-
+  
     const data = await res.json();
-    msgDiv.innerText = data.mensaje || data.error;
-    msgDiv.className = res.ok ? "text-success" : "text-danger";
+  
+    if (res.ok) {
+      msgDiv.innerText = data.mensaje || "Inicio de sesión exitoso.";
+      msgDiv.className = "text-success";
+      setTimeout(() => {
+        window.location.href = "tienda.html";
+      }, 1000); // Puedes ajustar este tiempo si quieres que redirija más rápido
+    } else {
+      msgDiv.innerText = data.mensaje || data.error || "Error al iniciar sesión.";
+      msgDiv.className = "text-danger";
+    }
   } catch (error) {
     msgDiv.innerText = "Error de conexión con el servidor.";
     msgDiv.className = "text-danger";
