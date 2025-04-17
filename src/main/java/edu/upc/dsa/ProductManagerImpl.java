@@ -14,17 +14,12 @@ public class ProductManagerImpl implements ProductManager{
 
     private static ProductManager instance; // singleton
     protected List<Usuario> usuarios;
-
-
-    List<Producto> productos;
-    List<Producto> secciones;
-    Tienda tienda;
-
+    private List<Seccion> secciones; // ya no hay clase Tienda
     final static Logger logger = Logger.getLogger(ProductManagerImpl.class);
 
     private ProductManagerImpl() {
         this.usuarios = new LinkedList<>();
-        this.tienda = new Tienda("Tienda del juego");
+        this.secciones = new ArrayList<>();
     }
 
     // Patron singleton
@@ -39,7 +34,6 @@ public class ProductManagerImpl implements ProductManager{
         String NombreUsu = u.getNombreUsu();
         Usuario comprobar = comprobarUsuario(u.getNombreUsu());
         if (comprobar != null){
-
             logger.error("Usuario con "+NombreUsu + " ya existe");
             throw new UsuarioYaExisteException("Usuario con "+NombreUsu + " ya existe");
         }
@@ -47,7 +41,6 @@ public class ProductManagerImpl implements ProductManager{
         logger.info("Nuevo usuario añadido : "+u);
         logger.info("Usuarios: " +this.usuarios);
         return u;
-
     }
 
     @Override
@@ -64,7 +57,6 @@ public class ProductManagerImpl implements ProductManager{
                 return u;
             }
         }
-
         logger.warn(nombreUsu+ " no encontrado ");
         return null;
     }
@@ -78,7 +70,6 @@ public class ProductManagerImpl implements ProductManager{
                 return u;
             }
         }
-
         logger.warn(nombreUsu+ " no encontrado ");
         throw new UsuarioNotFoundException(nombreUsu+ " no encontrado ");
     }
@@ -96,25 +87,23 @@ public class ProductManagerImpl implements ProductManager{
 
     @Override
     public void addProductoASeccion(String nombreSeccion, Producto producto) {
-        for (Seccion s : this.tienda.getSecciones()) {
+        for (Seccion s : this.secciones) {
             if (s.getNombre().equalsIgnoreCase(nombreSeccion)) {
                 s.agregarProducto(producto);
                 logger.info("Producto añadido a la sección " + nombreSeccion + ": " + producto);
                 return;
             }
         }
-
-        // Si la sección no existe, se puede crear automáticamente (opcional):
+        // Si no existe, crear la sección
         Seccion nueva = new Seccion(nombreSeccion);
         nueva.agregarProducto(producto);
-        this.tienda.agregarSeccion(nueva);
+        this.secciones.add(nueva);
         logger.info("Sección no encontrada. Se ha creado la sección " + nombreSeccion + " y se ha añadido el producto: " + producto);
     }
 
-    //TIENDA
     @Override
     public Producto buscarProductoPorId(String idProducto) {
-        for (Seccion seccion : tienda.getSecciones()) {
+        for (Seccion seccion : secciones) {
             for (Producto p : seccion.getProductos()) {
                 if (p.getId().equals(idProducto)) return p;
             }
@@ -125,7 +114,7 @@ public class ProductManagerImpl implements ProductManager{
     @Override
     public List<Producto> buscarProductosPorNombre(String nombre) {
         List<Producto> resultados = new ArrayList<>();
-        for (Seccion seccion : tienda.getSecciones()) {
+        for (Seccion seccion : secciones) {
             for (Producto p : seccion.getProductos()) {
                 if (p.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
                     resultados.add(p);
@@ -146,10 +135,9 @@ public class ProductManagerImpl implements ProductManager{
         return true;
     }
 
-
     @Override
     public List<Producto> listarProductosPorSeccion(String nombreSeccion) {
-        for (Seccion s : tienda.getSecciones()) {
+        for (Seccion s : secciones) {
             if (s.getNombre().equalsIgnoreCase(nombreSeccion)) {
                 return s.getProductos();
             }
@@ -160,26 +148,21 @@ public class ProductManagerImpl implements ProductManager{
     @Override
     public List<Producto> listarProductos() {
         List<Producto> productos = new ArrayList<>();
-        for (Seccion seccion : tienda.getSecciones()) {
+        for (Seccion seccion : secciones) {
             productos.addAll(seccion.getProductos());
         }
         return productos;
     }
 
-
-    /*@Override
-    public void clear() {
-        this.usuarios.clear();
-    }*/
+    public List<Seccion> getSecciones() {
+        return this.secciones;
+    }
 
     @Override
     public void clear() {
         this.usuarios.clear();
-        if (this.tienda != null) {
-            this.tienda.getSecciones().clear();  // <-- Limpia secciones y por tanto productos
-        }
+        this.secciones.clear();
     }
-
 
     @Override
     public int sizeUsuarios() {
@@ -187,11 +170,4 @@ public class ProductManagerImpl implements ProductManager{
         logger.info(users + " usuarios");
         return users;
     }
-
-
 }
-
-/*@Override
-    public List<Seccion> listarSecciones() {
-        return this.tienda.getSecciones();
-    }*/

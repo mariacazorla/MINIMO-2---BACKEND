@@ -32,7 +32,7 @@ public interface ProductManager {
    Producto buscarProductoPorId(String idProducto);        // Detalle de un producto
     List<Producto> buscarProductosPorNombre(String nombre); // Búsqueda por nombre (pensado para un buscador)
     void addProductoASeccion(String nombreSeccion, Producto producto);
-
+    List<Seccion> getSecciones();
 
     public void clear();
     public int sizeUsuarios();

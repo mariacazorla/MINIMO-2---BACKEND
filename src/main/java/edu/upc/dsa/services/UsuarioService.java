@@ -141,6 +141,16 @@ public class UsuarioService {
         else
             return Response.status(404).entity("{\"error\":\"Usuario o producto no encontrado\"}").build();
     }
+    @GET
+    @ApiOperation(value = "Listar todas las secciones", notes = "Devuelve todas las secciones de la tienda")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Seccion.class, responseContainer = "List")
+    })
+    @Path("/secciones")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllSecciones() {
+        return Response.status(200).entity(((ProductManagerImpl)this.pm).getSecciones()).build();
+    }
 
 
 }
