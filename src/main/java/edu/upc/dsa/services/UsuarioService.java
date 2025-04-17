@@ -30,7 +30,16 @@ public class UsuarioService {
             this.pm.addUsuario("Paco", "1234");
             this.pm.addUsuario("Lopez", "1234");
             this.pm.addUsuario("Ana", "1234");
+            this.pm.addUsuario("Miguel", "1234");
         }
+
+        Producto p1 = new Producto("1", "Espada mágica", 50);
+        Producto p2 = new Producto("2", "Poción de vida", 25);
+        Producto p3 = new Producto("3", "Traje ninja", 40);
+
+        this.pm.addProductoASeccion("skins", p1);
+        this.pm.addProductoASeccion("vidas", p2);
+        this.pm.addProductoASeccion("skins", p3);
 
     }
 
