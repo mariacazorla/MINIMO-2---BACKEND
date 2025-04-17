@@ -22,11 +22,7 @@ public class ProductManagerTest {
     @Before
     public void setUp() {
         this.pm = ProductManagerImpl.getInstance();
-<<<<<<< HEAD
-=======
         this.pm.clear(); // Nos aseguramos que no haya datos anteriores
-
->>>>>>> 28f56d1aefa5e8f99fea35ca66c8482c77356327
         this.pm.addUsuario("Paco", "1234");
         this.pm.addUsuario("Lopez", "1234");
         this.pm.addUsuario("Ana", "1234");
