@@ -3,7 +3,7 @@ window.onload = function() {
 }
 
 function tienda(){
-    const BASE_URL = "http://localhost:8080/dsaApp/tienda";
+    const BASE_URL = "http://localhost:8080/dsaApp/usuarios";
     let usuarioActual = "Miguel"; // Usuario de prueba para la compra
     
     // Cargar secciones
