@@ -32,13 +32,18 @@ async function enviarFormulario(event, tipo) {
     const data = await res.json();
   
     if (res.ok) {
-      msgDiv.innerText = data.mensaje || "Inicio de sesión exitoso.";
+      localStorage.setItem("token", data.token); // Guardamos el token
+      msgDiv.innerText = data.mensaje || (tipo === "login" ? "Inicio de sesión exitoso." : "Registro exitoso.");
       msgDiv.className = "text-success";
-      setTimeout(() => {
-        window.location.href = "tienda.html";
-      }, 1000); // Puedes ajustar este tiempo si quieres que redirija más rápido
+
+      // Redirige solo si es login
+      if (tipo === "login") {
+        setTimeout(() => {
+          window.location.href = "tienda.html";
+        }, 1000);
+      }
     } else {
-      msgDiv.innerText = data.mensaje || data.error || "Error al iniciar sesión.";
+      msgDiv.innerText = data.mensaje || data.error || "Error al procesar la solicitud.";
       msgDiv.className = "text-danger";
     }
   } catch (error) {

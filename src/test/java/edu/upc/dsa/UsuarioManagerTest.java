@@ -38,18 +38,21 @@ public class UsuarioManagerTest {
         assertEquals(4, um.sizeUsuarios());
         this.um.addUsuario("John", "1234");
         assertEquals(5, um.sizeUsuarios());
+        // Intentar registrar un nombre repetido debe lanzar excepción
         assertThrows(UsuarioYaExisteException.class, () ->
-                this.um.addUsuario("John", "1234"));
+                this.um.addUsuario("John", "otraClave"));
     }
 
     @Test
     public void getUsuarioTest() throws Exception {
         Usuario u = this.um.getUsuario("Paco");
         assertEquals("Paco", u.getNombreUsu());
-        assertEquals("1234", u.getPassword());
+        // No verificamos la contraseña directamente porque ahora se almacena cifrada
+        assertNotNull(u.getPassword());
+        assertNotEquals("1234", u.getPassword());  // debe estar cifrada
 
         assertThrows(UsuarioNotFoundException.class, () ->
-                this.um.getUsuario("UUUUUU"));
+                this.um.getUsuario("Inexistente"));
     }
 
     @Test
@@ -57,8 +60,12 @@ public class UsuarioManagerTest {
         Usuario u = this.um.loginUsuario("Paco", "1234");
         assertEquals("Paco", u.getNombreUsu());
 
+        // Login con contraseña incorrecta
         assertThrows(PasswordNotMatchException.class, () ->
-                this.um.loginUsuario("Paco", "PPPPPP"));
+                this.um.loginUsuario("Paco", "claveIncorrecta"));
+        // Login con usuario no existente
+        assertThrows(UsuarioNotFoundException.class, () ->
+                this.um.loginUsuario("NoExiste", "1234"));
     }
 
 }

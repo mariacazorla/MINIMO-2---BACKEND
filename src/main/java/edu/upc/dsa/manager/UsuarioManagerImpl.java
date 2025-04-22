@@ -5,6 +5,7 @@ import edu.upc.dsa.exceptions.UsuarioNotFoundException;
 import edu.upc.dsa.exceptions.UsuarioYaExisteException;
 import edu.upc.dsa.models.*;
 import org.apache.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +35,11 @@ public class UsuarioManagerImpl implements UsuarioManager{
             logger.error("Usuario con " + nombreUsu + " ya existe");
             throw new UsuarioYaExisteException("Usuario con " + nombreUsu + " ya existe");
         }
+
+        // Cifrado de la contraseña
+        String hashedPassword = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
+        u.setPassword(hashedPassword);
+
         this.usuarios.add(u);
         logger.info("Usuario añadido: " + u);
         logger.info("Usuarios: " +this.usuarios);
@@ -68,7 +74,7 @@ public class UsuarioManagerImpl implements UsuarioManager{
     @Override
     public Usuario loginUsuario(String nombreUsu, String password) throws PasswordNotMatchException {
         Usuario u = getUsuario(nombreUsu);
-        if (u == null || !u.getPassword().equals(password)) {
+        if (u == null || !BCrypt.checkpw(password, u.getPassword())) {
             throw new PasswordNotMatchException("Credenciales incorrectas");
         }
         logger.info("Login exitoso para: " + nombreUsu);

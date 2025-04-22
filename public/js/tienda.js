@@ -4,11 +4,40 @@ window.onload = function() {
 
 function tienda(){
     const BASE_URL = "http://localhost:8080/dsaApp/tienda";
-    let usuarioActual = "Miguel"; // Usuario de prueba para la compra
+    //TOKEN en principio con esto todas las paginas
+    const token = localStorage.getItem("token");
+    if (!token) {
+        alert("No estás autenticado. Vuelve a iniciar sesión.");
+        window.location.href = "/";
+        return;
     
+    }
+    // Cargar secciones
+    function getUsuarioDesdeToken(token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.sub;
+        } catch (e) {
+            console.error("Token inválido:", e);
+            return null;
+        }
+    }
+    const usuarioActual = getUsuarioDesdeToken(token);
+    if (!usuarioActual) {
+        alert("Token inválido. Vuelve a iniciar sesión.");
+        window.location.href = "/";
+        return;
+    }
+    // cambio los $.ajax a ajaxConToken, para mejor lectura, y usar jwt
+    function ajaxConToken(opciones) {
+        opciones.headers = opciones.headers || {};
+        opciones.headers["Authorization"] = "Bearer " + token;
+        return $.ajax(opciones);
+    }
+    //FIN TOKEN
     // Cargar secciones
     function cargarSecciones() {
-        $.ajax({
+        ajaxConToken({
             url: BASE_URL + "/secciones",
             type: "GET",
             success: function (secciones) {
@@ -44,7 +73,7 @@ function tienda(){
     
     // Cargar todos los productos
     function cargarTodosProductos() {
-        $.ajax({
+        ajaxConToken({
             url: BASE_URL + "/productos",
             type: "GET",
             success: function (productos) {
@@ -60,7 +89,7 @@ function tienda(){
     
     // Cargar productos por sección
     function cargarProductosPorSeccion(nombreSeccion) {
-        $.ajax({
+        ajaxConToken({
             url: BASE_URL + "/productos/seccion/" + nombreSeccion,
             type: "GET",
             success: function (productos) {
@@ -105,7 +134,7 @@ function tienda(){
     
     // Comprar un producto
     function comprarProducto(idProducto) {
-        $.ajax({
+        ajaxConToken({
             url: BASE_URL + "/productos/comprar",
             type: "POST",
             contentType: "application/json",
