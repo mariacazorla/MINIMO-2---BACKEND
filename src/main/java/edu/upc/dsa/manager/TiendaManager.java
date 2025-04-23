@@ -19,6 +19,8 @@ public interface TiendaManager {
     void addProductoASeccion(String nombreSeccion, Producto producto);
     List<Seccion> getSecciones();
 
+    public void eliminarProducto(String idProducto);
+
     public void clear();
 
 }

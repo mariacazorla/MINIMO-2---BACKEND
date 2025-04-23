@@ -98,6 +98,21 @@ public class TiendaManagerImpl implements TiendaManager {
     }
 
     @Override
+    public void eliminarProducto(String idProducto) {
+        for (Seccion seccion : this.secciones) {
+            List<Producto> productos = seccion.getProductos();
+            for (int i = 0; i < productos.size(); i++) {
+                if (productos.get(i).getId().equals(idProducto)) {
+                    productos.remove(i);
+                    logger.info("Producto con ID " + idProducto + " eliminado correctamente.");
+                    return;
+                }
+            }
+        }
+        logger.warn("Producto con ID " + idProducto + " no encontrado.");
+    }
+
+    @Override
     public void clear() {
         this.secciones.clear();
     }

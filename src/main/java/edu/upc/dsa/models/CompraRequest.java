@@ -20,5 +20,10 @@ public class CompraRequest {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
+
+    @Override
+    public String toString() {
+        return "CompraRequest [idProducto="+idProducto+" , nombreUsuario="+ nombreUsuario+"]";
+    }
 }
 

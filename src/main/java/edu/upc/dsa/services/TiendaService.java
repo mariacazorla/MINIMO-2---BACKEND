@@ -75,6 +75,23 @@ public class TiendaService {
     }
 
     @POST
+    @ApiOperation(value = "Añadir producto a una sección", notes = "Crea un nuevo producto en la sección especificada")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Producto añadido correctamente"),
+            @ApiResponse(code = 400, message = "Faltan datos o sección inválida")
+    })
+    @Path("/productos/seccion/{seccion}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addProductoASeccion(@PathParam("seccion") String nombreSeccion, Producto producto) {
+        if (producto.getId() == null || producto.getNombre() == null || producto.getPrecio() <= 0) {
+            return Response.status(400).entity("{\"error\":\"Datos del producto incompletos o inválidos\"}").build();
+        }
+        this.tm.addProductoASeccion(nombreSeccion, producto);
+        return Response.status(201).entity("{\"mensaje\":\"Producto añadido correctamente\"}").build();
+    }
+
+    @POST
     @ApiOperation(value = "Comprar un producto", notes = "Compra un producto específico")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Compra realizada"),
@@ -100,6 +117,24 @@ public class TiendaService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllSecciones() {
         return Response.status(200).entity(this.tm.getSecciones()).build();
+    }
+
+    @DELETE
+    @ApiOperation(value = "Eliminar producto de una sección", notes = "Elimina un producto de la sección especificada por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Producto eliminado correctamente"),
+            @ApiResponse(code = 404, message = "Producto no encontrado")
+    })
+    @Path("/productos/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response eliminarProducto(@PathParam("id") String idProducto) {
+        Producto producto = this.tm.buscarProductoPorId(idProducto);
+        if (producto != null) {
+            this.tm.eliminarProducto(idProducto);
+            return Response.status(200).entity("{\"mensaje\":\"Producto eliminado correctamente\"}").build();
+        } else {
+            return Response.status(404).entity("{\"error\":\"Producto no encontrado\"}").build();
+        }
     }
 
 }

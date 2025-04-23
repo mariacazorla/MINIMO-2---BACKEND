@@ -30,5 +30,10 @@ public class Seccion {
         }
         return null;
     }
+
+     @Override
+     public String toString() {
+         return "Seccion [nombre="+nombre+" , List<Producto>="+ productos +"]";
+     }
 }
 

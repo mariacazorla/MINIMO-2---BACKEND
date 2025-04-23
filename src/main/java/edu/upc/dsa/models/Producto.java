@@ -5,6 +5,10 @@ public class Producto {
     private String nombre;
     private double precio;
 
+    public Producto(){
+
+    }
+
     public Producto(String id, String nombre, double precio) {
         this.id = id;
         this.nombre = nombre;
@@ -33,5 +37,10 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto [id="+id+" , nombre="+ nombre +" , precio="+precio+"]";
     }
 }
