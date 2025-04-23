@@ -51,7 +51,7 @@ public class UsuarioService {
             @ApiResponse(code = 500, message = "Usuario ya existe")
     })
 
-    @Path("/")
+    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUsuario(Usuario u) {
         try {
