@@ -47,7 +47,7 @@ function formulario() {
         if (tipo === "login") {
           localStorage.setItem("token", data.token);
           setTimeout(() => {
-            window.location.href = "tienda.html";
+            window.location.href = "menu.html";
           }, 1000);
         }
       } else {

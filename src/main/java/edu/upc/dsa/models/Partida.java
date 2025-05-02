@@ -29,7 +29,7 @@ public class Partida {
 
     @Override
     public String toString() {
-        return "Usuario [vidas="+vidas+"]";
+        return "Usuario [vidas="+vidas+", monedas="+monedas+", puntuacion="+puntuacion+", objetos="+objetos+"]";
     }
     
 }

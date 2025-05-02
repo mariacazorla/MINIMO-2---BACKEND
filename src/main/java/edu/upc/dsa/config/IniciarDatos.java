@@ -18,7 +18,7 @@ public class IniciarDatos {
             um.addUsuario("Paco", "1234");
             um.addUsuario("Ana", "1234");
             um.addUsuario("Miguel", "1234");
-            um.addUsuario("Lopez", "1234");
+            um.addUsuario("Diego", "1234");
         }
 
         // Cargar datos de productos si no hay productos
