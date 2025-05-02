@@ -1,9 +1,9 @@
 package edu.upc.dsa.services;
 
 import edu.upc.dsa.config.IniciarDatos;
-import edu.upc.dsa.exceptions.PasswordNotMatchException;
-import edu.upc.dsa.exceptions.UsuarioNotFoundException;
-import edu.upc.dsa.exceptions.UsuarioYaExisteException;
+import edu.upc.dsa.exceptions.usuario.PasswordNotMatchException;
+import edu.upc.dsa.exceptions.usuario.UsuarioNotFoundException;
+import edu.upc.dsa.exceptions.usuario.UsuarioYaExisteException;
 import edu.upc.dsa.manager.UsuarioManager;
 import edu.upc.dsa.manager.UsuarioManagerImpl;
 import edu.upc.dsa.models.*;

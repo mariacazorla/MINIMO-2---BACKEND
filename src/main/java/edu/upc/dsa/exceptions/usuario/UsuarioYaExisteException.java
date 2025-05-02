@@ -1,4 +1,4 @@
-package edu.upc.dsa.exceptions;
+package edu.upc.dsa.exceptions.usuario;
 
 public class UsuarioYaExisteException extends RuntimeException {
     public UsuarioYaExisteException(String message) {

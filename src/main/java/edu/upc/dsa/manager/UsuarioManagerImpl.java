@@ -1,8 +1,8 @@
 package edu.upc.dsa.manager;
 
-import edu.upc.dsa.exceptions.PasswordNotMatchException;
-import edu.upc.dsa.exceptions.UsuarioNotFoundException;
-import edu.upc.dsa.exceptions.UsuarioYaExisteException;
+import edu.upc.dsa.exceptions.usuario.PasswordNotMatchException;
+import edu.upc.dsa.exceptions.usuario.UsuarioNotFoundException;
+import edu.upc.dsa.exceptions.usuario.UsuarioYaExisteException;
 import edu.upc.dsa.models.*;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;

@@ -1,11 +1,12 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.exceptions.PasswordNotMatchException;
-import edu.upc.dsa.exceptions.UsuarioNotFoundException;
-import edu.upc.dsa.exceptions.UsuarioYaExisteException;
+import edu.upc.dsa.exceptions.usuario.PasswordNotMatchException;
+import edu.upc.dsa.exceptions.usuario.UsuarioNotFoundException;
+import edu.upc.dsa.exceptions.usuario.UsuarioYaExisteException;
 import edu.upc.dsa.manager.UsuarioManager;
 import edu.upc.dsa.manager.UsuarioManagerImpl;
 import edu.upc.dsa.models.Usuario;
+import edu.upc.dsa.util.IniciarDatosTests;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -22,10 +23,7 @@ public class UsuarioManagerTest {
     public void setUp() {
         this.um = UsuarioManagerImpl.getInstance();
         this.um.clear(); // Nos aseguramos que no haya datos anteriores
-        this.um.addUsuario("Paco", "1234");
-        this.um.addUsuario("Lopez", "1234");
-        this.um.addUsuario("Ana", "1234");
-        this.um.addUsuario("Miguel", "1234");
+        IniciarDatosTests.initUsuarios(this.um);
     }
 
     @After

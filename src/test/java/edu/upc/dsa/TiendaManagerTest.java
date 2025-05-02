@@ -5,6 +5,7 @@ import edu.upc.dsa.manager.TiendaManagerImpl;
 import edu.upc.dsa.manager.UsuarioManager;
 import edu.upc.dsa.manager.UsuarioManagerImpl;
 import edu.upc.dsa.models.Producto;
+import edu.upc.dsa.util.IniciarDatosTests;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -25,18 +26,10 @@ public class TiendaManagerTest {
         this.tm = TiendaManagerImpl.getInstance();
         this.um = UsuarioManagerImpl.getInstance();
         this.tm.clear(); // Nos aseguramos que no haya datos anteriores
-        this.um.clear(); // Nos aseguramos que no haya datos anteriores
+        this.um.clear();
 
-        this.um.addUsuario("Miguel", "1234"); // necesario para probar compra
-
-        // Añadir productos a las secciones usando el metodo correcto
-        Producto p1 = new Producto("1", "Espada mágica", 50);
-        Producto p2 = new Producto("2", "Poción de vida", 25);
-        Producto p3 = new Producto("3", "Traje ninja", 40);
-
-        this.tm.addProductoASeccion("skins", p1);
-        this.tm.addProductoASeccion("vidas", p2);
-        this.tm.addProductoASeccion("skins", p3);
+        IniciarDatosTests.initUsuarios(this.um);
+        IniciarDatosTests.initProductos(this.tm);
     }
 
     @After
