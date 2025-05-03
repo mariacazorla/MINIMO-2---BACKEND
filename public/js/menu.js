@@ -4,13 +4,16 @@ const isEmulator = /Android/i.test(navigator.userAgent);
 // Usar la IP correcta según el caso
 const BASE_URL = isEmulator ? "http://10.0.2.2:8080/dsaApp" : "http://localhost:8080/dsaApp";
 
-
+const token = localStorage.getItem("token");
 // Función para hacer peticiones AJAX con token
 function ajaxConToken(opciones) {
   opciones.headers = opciones.headers || {};
   opciones.headers["Authorization"] = "Bearer " + token;
   return $.ajax(opciones);
 }
+document.getElementById("partida").addEventListener("click", function () {
+  window.location.href = "partida.html";
+});
 document.getElementById("tienda").addEventListener("click", function () {
     window.location.href = "tienda.html";
 });

@@ -63,6 +63,8 @@ public class PartidaService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerPartidas() {
         try {
+            logger.info(securityContext);
+            logger.info(securityContext.getUserPrincipal());
             String nombreUsu = securityContext.getUserPrincipal().getName();
             List<Partida> partidas = this.pm.getPartidas(nombreUsu);
             return Response.status(200).entity(partidas).build();

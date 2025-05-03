@@ -17,6 +17,21 @@ public class JWTAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        String fullPath = requestContext.getUriInfo().getRequestUri().toString();
+        if (fullPath.contains("/usuarios/login") || fullPath.contains("/usuarios/register")) {
+            return;
+        }
+        String path = requestContext.getUriInfo().getPath();
+
+        if (path.startsWith("swagger") ||
+                path.equals("swagger.json") ||
+                path.equals("application.wadl") ||
+                path.startsWith("webjars/") ||
+                path.contains("api-docs") ||
+                path.contains("openapi") ||
+                path.contains("debug")) {
+            return;
+        }
         // Obtener el encabezado "Authorization"
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
