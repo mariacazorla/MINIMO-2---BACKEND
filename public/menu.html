@@ -11,12 +11,18 @@
     <script src="js/menu.js" defer></script>
     <title>Menu</title>
 </head>
-<body>
-    <div class="btn-container text-center"></div>
-        <button type="button" class="btn btn-primary" id="partida">Partida</button>
-        <button type="button" class="btn btn-danger" id="tienda">Tienda</button>
-        <button type="button" class="btn btn-info" id="objetos">Objetos</button>
-        <button type="button" class="btn btn-secondary" id="volver">Volver</button>
+<body class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+          <div class="btn-container d-grid gap-3 text-center">
+            <button type="button" class="btn btn-primary btn-lg w-100" id="partida">Partida</button>
+            <button type="button" class="btn btn-danger btn-lg w-100" id="tienda">Tienda</button>
+            <button type="button" class="btn btn-info btn-lg w-100" id="objetos">Objetos</button>
+            <button type="button" class="btn btn-secondary btn-lg w-100" id="volver">Volver</button>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

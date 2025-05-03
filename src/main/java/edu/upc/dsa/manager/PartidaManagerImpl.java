@@ -1,6 +1,7 @@
 package edu.upc.dsa.manager;
 
 import edu.upc.dsa.exceptions.partida.PartidaYaExisteException;
+import edu.upc.dsa.exceptions.usuario.UsuarioNotFoundException;
 import edu.upc.dsa.models.Partida;
 import edu.upc.dsa.models.Usuario;
 import org.apache.log4j.Logger;
@@ -26,18 +27,25 @@ public class PartidaManagerImpl implements PartidaManager{
     public Partida addPartida(Partida p) {
         logger.info("Nueva partida " + p);
         String id_partida = p.getId_partida();
-        //Partida comprobar = comprobarPartidas(id_partida);
-        //estoy hay que hacerlo para todas las partidas
-        //if (comprobar != null){
-        //    logger.error("Partida con " + id_partida + " ya existe");
-        //    throw new PartidaYaExisteException("Partida con " + id_partida + " ya existe");
-        //}
+        String id_usuario = p.getId_usuario();
+        List<Partida> partidas = getPartidas(id_usuario);
+        for (Partida partida : partidas){
+            if (partida.getId_partida().equals(id_partida)){
+                logger.error("Partida con " + id_partida + " ya existe");
+                throw new PartidaYaExisteException("Partida con " + id_partida + " ya existe");
+            }
+        }
         try {
-            Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(p.getId_usuario());
+            Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(id_usuario);
+            if (usuario == null){
+                logger.error("Usuario no encontrado: " + id_usuario);
+                throw new UsuarioNotFoundException("Usuario no encontrado: " + id_usuario);
+            }
             usuario.getPartidas().add(p);
             logger.info("Usuario con partidas: " +usuario);
         } catch (Exception e) {
-            logger.error("No se pudo encontrar el usuario: " + p.getId_usuario(), e);
+            logger.error("Error al obtener el usuario: " + id_usuario, e);
+            throw e;
         }
         return p;
     }
@@ -45,6 +53,12 @@ public class PartidaManagerImpl implements PartidaManager{
     @Override
     public Partida addPartida(String id_partida, String id_usuario, Integer vidas, Integer monedas, Integer puntuacion) {
         return this.addPartida(new Partida(id_partida, id_usuario, vidas, monedas, puntuacion));
+    }
+
+    @Override
+    public Partida addPartida(String id_usuario) {
+        Partida partida= new Partida (null, id_usuario, 3, 100, 0);
+        return this.addPartida(partida);
     }
 
     @Override
@@ -60,7 +74,7 @@ public class PartidaManagerImpl implements PartidaManager{
         Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(id_usuario);
         if (usuario == null) {
             logger.warn("Usuario no encontrado: " + id_usuario);
-            return;
+            throw new UsuarioNotFoundException("Usuario no encontrado: " + id_usuario);
         }
 
         List<Partida> partidas = usuario.getPartidas();
