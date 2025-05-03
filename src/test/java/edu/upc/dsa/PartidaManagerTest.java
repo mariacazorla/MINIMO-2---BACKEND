@@ -38,7 +38,13 @@ public class PartidaManagerTest {
     }
 
     @Test
-    public void createPartidaTest() throws Exception {
-        this.pm.createPartida("1", "Paco", 3, 100, 0);
+    public void addPartidaTest() throws Exception {
+        this.pm.addPartida("1", "Paco", 3, 100, 0);
+        this.pm.getPartidas("Paco");
+        assertEquals(1,this.pm.sizePartidas("Paco"));
+        this.pm.addPartida("2", "Paco", 3, 100, 0);
+        assertEquals(2,this.pm.sizePartidas("Paco"));
+        this.pm.deletePartida("Paco", "1");
+        assertEquals(1,this.pm.sizePartidas("Paco"));
     }
 }

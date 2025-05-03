@@ -82,6 +82,11 @@ public class UsuarioManagerImpl implements UsuarioManager{
     }
 
     @Override
+    public List<Usuario> getAllUsuarios() {
+        return this.usuarios;
+    }
+
+    @Override
     public int sizeUsuarios() {
         return this.usuarios.size();
     }

@@ -21,6 +21,8 @@ public class Usuario {
     public void setNombreUsu(String nombreUsu){ this.nombreUsu = nombreUsu; }
     public String getPassword() { return this.password; }
     public void setPassword(String password) { this.password = password; }
+    public List<Partida> getPartidas() { return this.partidas; }
+    public void setPartidas(List<Partida> partidas) { this.partidas = partidas; }
 
     @Override
     public String toString() {

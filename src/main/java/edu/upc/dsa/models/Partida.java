@@ -39,6 +39,8 @@ public class Partida {
     public void setMonedas(Integer monedas) { this.monedas = monedas; }
     public Integer getPuntuacion() { return this.puntuacion; }
     public void setPuntuacion(Integer puntuacion) { this.puntuacion = puntuacion; }
+    public List<Producto> getObjetos() { return this.objetos; }
+    public void setObjetos(List<Producto> objetos) { this.objetos = objetos; }
 
     @Override
     public String toString() {
