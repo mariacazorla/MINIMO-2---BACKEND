@@ -71,6 +71,26 @@ public class PartidaService {
         }
     }
 
+    @GET
+    @Path("/{id_partida}")
+    @ApiOperation(value = "Obtener una partida específica del usuario", notes = "Obtiene una partida específica del usuario autenticado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Partida obtenida correctamente", response = Partida.class),
+            @ApiResponse(code = 404, message = "Partida no encontrada"),
+            @ApiResponse(code = 500, message = "Error interno")
+    })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerPartida(@PathParam("id_partida") String id_partida) {
+        try {
+            String nombreUsu = securityContext.getUserPrincipal().getName();
+            Partida partida = this.pm.getPartida(nombreUsu, id_partida); // Obtiene la partida específica
+            return Response.status(200).entity(partida).build();
+        } catch (Exception e) {
+            logger.error("Error al obtener la partida", e);
+            return Response.status(500).entity("{\"error\":\"Error al obtener la partida\"}").build();
+        }
+    }
+
     @DELETE
     @Path("/{id_partida}")
     @ApiOperation(value = "Eliminar partida", notes = "Elimina una partida del usuario autenticado")

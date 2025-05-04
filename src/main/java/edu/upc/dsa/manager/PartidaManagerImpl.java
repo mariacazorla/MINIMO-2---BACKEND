@@ -70,6 +70,25 @@ public class PartidaManagerImpl implements PartidaManager{
     }
 
     @Override
+    public Partida getPartida(String id_usuario, String id_partida) {
+        Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(id_usuario);
+        if (usuario == null) {
+            logger.warn("Usuario no encontrado: " + id_usuario);
+            throw new UsuarioNotFoundException("Usuario no encontrado: " + id_usuario);
+        }
+
+        List<Partida> partidas = usuario.getPartidas();
+        for (Partida partida : partidas) {
+            if (partida.getId_partida().equals(id_partida)) {
+                return partida; // Devuelve la partida si se encuentra
+            }
+        }
+
+        logger.warn("Partida no encontrada: " + id_partida + " para el usuario " + id_usuario);
+        throw new RuntimeException("Partida no encontrada");
+    }
+
+    @Override
     public void deletePartida(String id_usuario, String id_partida) {
         Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(id_usuario);
         if (usuario == null) {

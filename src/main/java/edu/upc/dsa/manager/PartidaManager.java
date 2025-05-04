@@ -18,6 +18,9 @@ public interface PartidaManager {
     //Obtener todas las partidas de un usuario
     List<Partida> getPartidas(String id_usuario);
 
+    // Obtener una partida específica de un usuario
+    Partida getPartida(String id_usuario, String id_partida);
+
     void deletePartida(String id_usuario, String id_partida);
 
     /// Obtener las monedas de una partida específica del usuario

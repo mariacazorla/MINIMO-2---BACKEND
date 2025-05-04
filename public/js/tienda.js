@@ -143,3 +143,10 @@ function cargarCarrito() {
   });
 }
 
+$(document).ready(function () {
+    // Agregar lógica de redirección al botón de partida
+    $("#irPartidaBtn").click(() => {
+      window.location.href = "partida.html"; // Redirige a partida.html
+    });
+  });
+
