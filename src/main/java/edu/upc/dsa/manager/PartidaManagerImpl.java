@@ -93,14 +93,24 @@ public class PartidaManagerImpl implements PartidaManager{
     }
 
     @Override
-    public Partida addMonedas(String usuario) {
-        return null;
+    public int getMonedasDePartida(String id_usuario, String id_partida) {
+        Usuario usuario = UsuarioManagerImpl.getInstance().getUsuario(id_usuario);
+        if (usuario == null) {
+            logger.warn("Usuario no encontrado: " + id_usuario);
+            throw new UsuarioNotFoundException("Usuario no encontrado: " + id_usuario);
+        }
+
+        List<Partida> partidas = usuario.getPartidas();
+        for (Partida partida : partidas) {
+            if (partida.getId_partida().equals(id_partida)) {
+                return partida.getMonedas(); // Devuelve las monedas de la partida
+            }
+        }
+
+        logger.warn("Partida no encontrada: " + id_partida + " para el usuario " + id_usuario);
+        throw new RuntimeException("Partida no encontrada");
     }
 
-    @Override
-    public Partida comprarProducto(String id_producto) {
-        return null;
-    }
 
     @Override
     public void clear() {

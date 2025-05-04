@@ -8,11 +8,19 @@ function formulario() {
     const form = event.target;
     const usuario = form.username.value.trim();
     const password = form.password.value.trim();
+    const confirmPassword = form.confirmPassword ? form.confirmPassword.value.trim() : null;
     const msgDiv = document.getElementById("mensaje");
 
     // Validación de campos vacíos
-    if (!usuario || !password) {
+    if (!usuario || !password || (tipo === "register" && !confirmPassword)) {
       msgDiv.innerText = "Por favor completa todos los campos.";
+      msgDiv.className = "text-danger";
+      return;
+    }
+
+    // Validación de contraseña confirmada
+    if (tipo === "register" && password !== confirmPassword) {
+      msgDiv.innerText = "Las contraseñas no coinciden.";
       msgDiv.className = "text-danger";
       return;
     }
@@ -22,13 +30,8 @@ function formulario() {
       password: password
     };
 
-    // Determina si es un login o un registro
     const ruta = tipo === "login" ? "login" : "register";
-
-    // Detecta si estamos en el emulador o en la PC
     const isEmulator = /Android/i.test(navigator.userAgent);
-
-    // Usar la IP correcta según el caso
     const baseUrl = isEmulator ? "http://10.0.2.2:8080/dsaApp" : "http://localhost:8080/dsaApp";
 
     try {
@@ -47,7 +50,7 @@ function formulario() {
         if (tipo === "login") {
           localStorage.setItem("token", data.token);
           setTimeout(() => {
-            window.location.href = "menu.html";
+            window.location.href = "partida.html";
           }, 1000);
         }
       } else {
@@ -60,8 +63,8 @@ function formulario() {
     }
   }
 
-  // Event listeners para los formularios
   document.getElementById("loginForm").addEventListener("submit", e => enviarFormulario(e, "login"));
   document.getElementById("registerForm").addEventListener("submit", e => enviarFormulario(e, "register"));
 }
+
 

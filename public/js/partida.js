@@ -64,7 +64,9 @@ function filasPartidas(partidas){
               <p class="card-text"><strong>Monedas:</strong> ${partida.monedas}</p>
               <p class="card-text"><strong>Puntuación:</strong> ${partida.puntuacion}</p>
             </div>
-            <div class="mt-3 text-end">
+            <div class="mt-3 d-flex justify-content-between">
+              <button class="btn btn-primary btn-sm tienda-btn" data-id="${partida.id_partida}">Tienda</button>
+              <button class="btn btn-info btn-sm inventario-btn" data-id="${partida.id_partida}">Inventario</button>
               <button class="btn btn-danger btn-sm eliminar-btn" data-id="${partida.id_partida}">Eliminar</button>
             </div>
           </div>
@@ -96,7 +98,9 @@ document.getElementById("crear").addEventListener("click", function () {
   crearPartida();
 });
 document.getElementById("volver").addEventListener("click", function () {
-window.location.href = "menu.html";
+  localStorage.removeItem("token"); // Elimina el token
+  alert("Sesión cerrada correctamente.");
+  window.location.href = "/";
 });
 
 $(document).on("click", ".eliminar-btn", function () {
@@ -105,4 +109,14 @@ $(document).on("click", ".eliminar-btn", function () {
   if (confirmado) {
     eliminarPartida(id);
   }
+});
+
+$(document).on("click", ".tienda-btn", function () {
+  const id = $(this).data("id");
+  window.location.href = `tienda.html?id_partida=${id}`;
+});
+
+$(document).on("click", ".inventario-btn", function () {
+  const id = $(this).data("id");
+  window.location.href = `inventario.html?id_partida=${id}`;
 });

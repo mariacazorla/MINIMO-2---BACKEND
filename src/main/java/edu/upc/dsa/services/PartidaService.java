@@ -90,4 +90,24 @@ public class PartidaService {
             return Response.status(500).entity("{\"error\":\"Error al eliminar la partida\"}").build();
         }
     }
+
+    @GET
+    @Path("/monedas/{id_partida}")
+    @ApiOperation(value = "Obtener las monedas de una partida específica del usuario")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Monedas obtenidas correctamente", response = Integer.class),
+            @ApiResponse(code = 404, message = "Partida no encontrada"),
+            @ApiResponse(code = 500, message = "Error interno")
+    })
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerMonedasDePartida(@PathParam("id_partida") String id_partida) {
+        try {
+            String nombreUsu = securityContext.getUserPrincipal().getName();
+            int monedas = pm.getMonedasDePartida(nombreUsu, id_partida); // Obtiene las monedas de la partida
+            return Response.status(200).entity("{\"monedas\":" + monedas + "}").build();
+        } catch (Exception e) {
+            logger.error("Error al obtener las monedas de la partida", e);
+            return Response.status(500).entity("{\"error\":\"Error al obtener las monedas\"}").build();
+        }
+    }
 }
