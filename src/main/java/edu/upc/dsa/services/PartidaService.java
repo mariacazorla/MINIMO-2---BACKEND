@@ -5,7 +5,6 @@ import edu.upc.dsa.config.IniciarDatos;
 import edu.upc.dsa.manager.PartidaManager;
 import edu.upc.dsa.manager.PartidaManagerImpl;
 import edu.upc.dsa.models.Partida;
-import edu.upc.dsa.models.Usuario;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -63,8 +62,6 @@ public class PartidaService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerPartidas() {
         try {
-            logger.info(securityContext);
-            logger.info(securityContext.getUserPrincipal());
             String nombreUsu = securityContext.getUserPrincipal().getName();
             List<Partida> partidas = this.pm.getPartidas(nombreUsu);
             return Response.status(200).entity(partidas).build();

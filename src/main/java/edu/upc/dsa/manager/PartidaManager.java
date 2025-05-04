@@ -20,6 +20,7 @@ public interface PartidaManager {
 
     void deletePartida(String id_usuario, String id_partida);
 
+    //puede que lo cambie
     Partida addMonedas(String id_usuario);
     Partida comprarProducto(String id_producto);
 

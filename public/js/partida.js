@@ -35,6 +35,7 @@ function mostrarPartidas() {
         success: function (partidas) {
           if (!partidas || partidas.length === 0) {
             console.log("No hay partidas.");
+            filasPartidas(partidas);
           } else {
             filasPartidas(partidas);
           }

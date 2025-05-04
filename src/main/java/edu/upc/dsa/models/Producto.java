@@ -4,6 +4,9 @@ public class Producto {
     private String id;
     private String nombre;
     private double precio;
+    //private String foto; // ruta de foto, pensando en BBDD
+    //private String descripcion;
+    //private int stock;
 
     public Producto(){
 

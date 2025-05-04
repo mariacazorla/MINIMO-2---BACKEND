@@ -25,7 +25,7 @@ public class PartidaManagerImpl implements PartidaManager{
 
     @Override
     public Partida addPartida(Partida p) {
-        logger.info("Nueva partida " + p);
+        //logger.info("Nueva partida " + p);
         String id_partida = p.getId_partida();
         String id_usuario = p.getId_usuario();
         List<Partida> partidas = getPartidas(id_usuario);

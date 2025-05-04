@@ -28,7 +28,7 @@ public class UsuarioManagerImpl implements UsuarioManager{
 
     @Override
     public Usuario addUsuario(Usuario u) throws UsuarioYaExisteException {
-        logger.info("Nuevo usuario " + u);
+        //logger.info("Nuevo usuario " + u);
         String nombreUsu = u.getNombreUsu();
         Usuario comprobar = comprobarUsuario(nombreUsu);
         if (comprobar != null){
@@ -41,7 +41,7 @@ public class UsuarioManagerImpl implements UsuarioManager{
         u.setPassword(hashedPassword);
 
         this.usuarios.add(u);
-        logger.info("Usuario añadido: " + u);
+        //logger.info("Usuario añadido: " + u);
         logger.info("Usuarios: " +this.usuarios);
         return u;
     }
@@ -53,14 +53,14 @@ public class UsuarioManagerImpl implements UsuarioManager{
 
     @Override
     public Usuario comprobarUsuario(String nombreUsu) {
-        logger.info("getUsuario("+ nombreUsu +")");
+        //logger.info("getUsuario("+ nombreUsu +")");
         for (Usuario u: this.usuarios) {
             if (u.getNombreUsu().equals(nombreUsu)) {
                 logger.info("getUsuario("+ nombreUsu +"): "+u);
                 return u;
             }
         }
-        logger.warn(nombreUsu+ " no encontrado ");
+        //logger.info(nombreUsu+ " no encontrado ");
         return null;
     }
 
