@@ -1,19 +1,21 @@
 package edu.upc.dsa.manager;
 
-import edu.upc.dsa.models.*;
+import edu.upc.dsa.models.CategoriaObjeto;
+import edu.upc.dsa.models.Objeto;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class TiendaManagerImpl implements TiendaManager {
+public class TiendaManagerImpl implements TiendaManager{
 
     private static TiendaManager instance;
-    private List<Seccion> secciones;
+    protected List<Objeto> productos;
     final static Logger logger = Logger.getLogger(TiendaManagerImpl.class);
 
     private TiendaManagerImpl() {
-        this.secciones = new ArrayList<>();
+        this.productos = new ArrayList<>();
     }
 
     // Patron singleton
@@ -23,98 +25,56 @@ public class TiendaManagerImpl implements TiendaManager {
     }
 
     @Override
-    public void addProductoASeccion(String nombreSeccion, Producto producto) {
-        for (Seccion s : this.secciones) {
-            if (s.getNombre().equalsIgnoreCase(nombreSeccion)) {
-                s.agregarProducto(producto);
-                logger.info("Producto añadido a la sección " + nombreSeccion + ": " + producto);
-                return;
-            }
-        }
-        // Si no existe, crear la sección
-        Seccion nueva = new Seccion(nombreSeccion);
-        nueva.agregarProducto(producto);
-        this.secciones.add(nueva);
-        logger.info("Sección no encontrada. Se ha creado la sección " + nombreSeccion + " y se ha añadido el producto: " + producto);
-    }
-
-    @Override
-    public Producto buscarProductoPorId(String idProducto) {
-        for (Seccion seccion : secciones) {
-            for (Producto p : seccion.getProductos()) {
-                if (p.getId().equals(idProducto)) return p;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Producto> buscarProductosPorNombre(String nombre) {
-        List<Producto> resultados = new ArrayList<>();
-        for (Seccion seccion : secciones) {
-            for (Producto p : seccion.getProductos()) {
-                if (p.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-                    resultados.add(p);
-                }
-            }
-        }
-        return resultados;
-    }
-
-    @Override
-    public boolean comprarProducto(String idProducto, String nombreUsuario) {
-        //No deberia ser necesario con jwt
-        //Usuario usuario = comprobarUsuario(nombreUsuario);
-        //if (usuario == null) return false;
-        Producto producto = buscarProductoPorId(idProducto);
-        if (producto == null) return false;
-
-        logger.info(nombreUsuario + " ha comprado el producto " + producto.getNombre());
-        return true;
-    }
-
-    @Override
-    public List<Producto> listarProductosPorSeccion(String nombreSeccion) {
-        for (Seccion s : secciones) {
-            if (s.getNombre().equalsIgnoreCase(nombreSeccion)) {
-                return s.getProductos();
-            }
-        }
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<Producto> listarProductos() {
-        List<Producto> productos = new ArrayList<>();
-        for (Seccion seccion : secciones) {
-            productos.addAll(seccion.getProductos());
-        }
+    public List<Objeto> getAllProductos() {
+        List<Objeto> productos = this.productos;
+        logger.info("Productos "+ productos);
         return productos;
     }
 
     @Override
-    public List<Seccion> getSecciones() {
-        return this.secciones;
+    public List<Objeto> getProductosPorCategoria(CategoriaObjeto categoria) {
+        List<Objeto> ProductosCategorias = this.productos.stream()
+                .filter(p -> p.getCategoria() == categoria)
+                .collect(Collectors.toList());
+        logger.info("Productos por categorias " + ProductosCategorias);
+        return ProductosCategorias;
     }
 
     @Override
-    public void eliminarProducto(String idProducto) {
-        for (Seccion seccion : this.secciones) {
-            List<Producto> productos = seccion.getProductos();
-            for (int i = 0; i < productos.size(); i++) {
-                if (productos.get(i).getId().equals(idProducto)) {
-                    productos.remove(i);
-                    logger.info("Producto con ID " + idProducto + " eliminado correctamente.");
-                    return;
-                }
-            }
-        }
-        logger.warn("Producto con ID " + idProducto + " no encontrado.");
+    public Objeto getProductoPorId(String id_producto) {
+        Objeto Producto = this.productos.stream()
+                .filter(p -> p.getId_objeto().equals(id_producto))
+                .findFirst()
+                .orElse(null);
+        logger.info("Producto por id_producto:" + id_producto + " es " + Producto);
+        return Producto;
+    }
+
+    @Override
+    public Objeto addProducto(Objeto producto) {
+        this.productos.add(producto);
+        return producto;
+    }
+
+    @Override
+    public Objeto addProducto(String id_objeto, String nombre, int precio, CategoriaObjeto categoria) {
+        return this.addProducto(new Objeto(id_objeto, nombre, precio, categoria));
+    }
+
+    @Override
+    public void deleteProducto(String id_producto) {
+        this.productos.removeIf(p -> p.getId_objeto().equals(id_producto));
     }
 
     @Override
     public void clear() {
-        this.secciones.clear();
+        this.productos.clear();
     }
 
+    @Override
+    public int sizeProductos() {
+        List<Objeto> productos = this.productos;
+        logger.info(productos.size());
+        return productos.size();
+    }
 }

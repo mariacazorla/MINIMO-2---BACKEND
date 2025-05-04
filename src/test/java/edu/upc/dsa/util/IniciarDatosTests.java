@@ -1,8 +1,10 @@
 package edu.upc.dsa.util;
 
+import edu.upc.dsa.manager.CarritoManager;
+import edu.upc.dsa.manager.PartidaManager;
 import edu.upc.dsa.manager.TiendaManager;
 import edu.upc.dsa.manager.UsuarioManager;
-import edu.upc.dsa.models.Producto;
+import edu.upc.dsa.models.CategoriaObjeto;
 
 public class IniciarDatosTests {
     public static void initUsuarios(UsuarioManager um) {
@@ -13,8 +15,15 @@ public class IniciarDatosTests {
     }
 
     public static void initProductos(TiendaManager tm) {
-        tm.addProductoASeccion("skins", new Producto("1", "Espada mágica", 50));
-        tm.addProductoASeccion("vidas", new Producto("2", "Poción de vida", 25));
-        tm.addProductoASeccion("skins", new Producto("3", "Traje ninja", 40));
+        tm.addProducto("1","Espada", 30, CategoriaObjeto.ARMAS);
+        tm.addProducto("2", "Armadura", 50, CategoriaObjeto.ARMADURAS);
+        tm.addProducto("3", "Poción", 20, CategoriaObjeto.POCIONES);
+
     }
+
+    public static void initPartidas(PartidaManager pm) {
+        pm.addPartida("1", "Diego", 3, 100, 0);
+    }
+
+
 }

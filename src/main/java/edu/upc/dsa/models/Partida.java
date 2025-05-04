@@ -8,43 +8,49 @@ import java.util.List;
 public class Partida {
 
     private String id_partida;
-    //id_usuario es el nombre del usuario
+    // id_usuario es el nombre del usuario
     private String id_usuario;
     private Integer vidas;
     private Integer monedas;
     private Integer puntuacion;
-    private List<Producto> objetos;
+    private List<Objeto> inventario;
 
     public Partida() {
-        this.setId_partida(RandomUtils.getId());
-        this.objetos = new ArrayList<>();
-    }
-    public Partida(String id_partida, String id_usuario, Integer vidas, Integer monedas, Integer puntuacion) {
-        this(); // Llama al constructor sin parámetros (asigna un id aleatorio).
-        if (id_partida != null) this.setId_partida(id_partida); // Si se proporciona un id, lo sobrescribe.
-        this.setId_usuario(id_usuario);
-        this.setVidas(vidas);
-        this.setMonedas(monedas);
-        this.setPuntuacion(puntuacion);
-        this.objetos = new ArrayList<>();
+        setId_partida(RandomUtils.getId());
+        inventario = new ArrayList<>();
     }
 
-    public String getId_partida() { return this.id_partida; }
+    public Partida(String id_partida, String id_usuario, Integer vidas, Integer monedas, Integer puntuacion) {
+        this(); // Llama al constructor sin parámetros (asigna un id aleatorio).
+        if (id_partida != null) setId_partida(id_partida); // Si se proporciona un id, lo sobrescribe.
+        setId_usuario(id_usuario);
+        setVidas(vidas);
+        setMonedas(monedas);
+        setPuntuacion(puntuacion);
+    }
+
+    public String getId_partida() { return id_partida; }
     public void setId_partida(String id_partida) { this.id_partida = id_partida; }
-    public String getId_usuario() { return this.id_usuario; }
+
+    public String getId_usuario() { return id_usuario; }
     public void setId_usuario(String id_usuario) { this.id_usuario = id_usuario; }
-    public Integer getVidas() { return this.vidas; }
-    public void setVidas(Integer vidas){ this.vidas = vidas; }
-    public Integer getMonedas() { return this.monedas; }
+
+    public Integer getVidas() { return vidas; }
+    public void setVidas(Integer vidas) { this.vidas = vidas; }
+
+    public Integer getMonedas() { return monedas; }
     public void setMonedas(Integer monedas) { this.monedas = monedas; }
-    public Integer getPuntuacion() { return this.puntuacion; }
+
+    public Integer getPuntuacion() { return puntuacion; }
     public void setPuntuacion(Integer puntuacion) { this.puntuacion = puntuacion; }
-    public List<Producto> getObjetos() { return this.objetos; }
-    public void setObjetos(List<Producto> objetos) { this.objetos = objetos; }
+
+    public List<Objeto> getInventario() { return inventario; }
+    public void setInventario(List<Objeto> inventario) { this.inventario = inventario; }
 
     @Override
     public String toString() {
-        return "Partida [id_partida="+id_partida+", id_usuario="+id_usuario+", vidas="+vidas+", monedas="+monedas+", puntuacion="+puntuacion+", objetos="+objetos+"]";
+        return "Partida [id_partida=" + id_partida + ", id_usuario=" + id_usuario + ", vidas=" + vidas +
+                ", monedas=" + monedas + ", puntuacion=" + puntuacion + ", inventario=" + inventario + "]";
     }
 
 }

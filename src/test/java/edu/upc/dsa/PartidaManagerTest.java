@@ -13,38 +13,33 @@ import static org.junit.Assert.assertThrows;
 public class PartidaManagerTest {
     
     final static Logger logger = Logger.getLogger(PartidaManagerTest.class);
-    TiendaManager tm;
     UsuarioManager um;
     PartidaManager pm;
 
     @Before
     public void setUp() {
-        this.tm = TiendaManagerImpl.getInstance();
         this.um = UsuarioManagerImpl.getInstance();
         this.pm = PartidaManagerImpl.getInstance();
-        this.tm.clear(); // Nos aseguramos que no haya datos anteriores
         this.um.clear();
         this.pm.clear();
 
         IniciarDatosTests.initUsuarios(this.um);
-        IniciarDatosTests.initProductos(this.tm);
+        IniciarDatosTests.initPartidas(this.pm);
     }
 
     @After
     public void tearDown() {
-        this.tm.clear();
         this.um.clear();
         this.pm.clear();
     }
 
     @Test
     public void addPartidaTest() throws Exception {
-        this.pm.addPartida("1", "Paco", 3, 100, 0);
-        this.pm.getPartidas("Paco");
-        assertEquals(1,this.pm.sizePartidas("Paco"));
-        this.pm.addPartida("2", "Paco", 3, 100, 0);
-        assertEquals(2,this.pm.sizePartidas("Paco"));
-        this.pm.deletePartida("Paco", "1");
-        assertEquals(1,this.pm.sizePartidas("Paco"));
+        this.pm.getPartidas("Diego");
+        assertEquals(1,this.pm.sizePartidas("Diego"));
+        this.pm.addPartida("2", "Diego", 3, 100, 0);
+        assertEquals(2,this.pm.sizePartidas("Diego"));
+        this.pm.deletePartida("Diego", "1");
+        assertEquals(1,this.pm.sizePartidas("Diego"));
     }
 }

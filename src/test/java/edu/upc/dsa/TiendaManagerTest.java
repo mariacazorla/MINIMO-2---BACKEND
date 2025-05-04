@@ -2,9 +2,8 @@ package edu.upc.dsa;
 
 import edu.upc.dsa.manager.TiendaManager;
 import edu.upc.dsa.manager.TiendaManagerImpl;
-import edu.upc.dsa.manager.UsuarioManager;
-import edu.upc.dsa.manager.UsuarioManagerImpl;
-import edu.upc.dsa.models.Producto;
+import edu.upc.dsa.models.CategoriaObjeto;
+import edu.upc.dsa.models.Objeto;
 import edu.upc.dsa.util.IniciarDatosTests;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -19,55 +18,44 @@ public class TiendaManagerTest {
 
     final static Logger logger = Logger.getLogger(TiendaManagerTest.class);
     TiendaManager tm;
-    UsuarioManager um;
 
     @Before
     public void setUp() {
         this.tm = TiendaManagerImpl.getInstance();
-        this.um = UsuarioManagerImpl.getInstance();
-        this.tm.clear(); // Nos aseguramos que no haya datos anteriores
-        this.um.clear();
+        this.tm.clear();
 
-        IniciarDatosTests.initUsuarios(this.um);
         IniciarDatosTests.initProductos(this.tm);
     }
 
     @After
     public void tearDown() {
         this.tm.clear();
-        this.um.clear();
     }
 
     @Test
-    public void testBuscarProductoPorId() {
-        Producto p = tm.buscarProductoPorId("1");
-        assertNotNull(p);
-        assertEquals("Espada mágica", p.getNombre());
+    public void testGetAllProductos() {
+        List<Objeto> productos = this.tm.getAllProductos();
+        assertEquals(3, productos.size());
     }
 
     @Test
-    public void testBuscarProductosPorNombre() {
-        List<Producto> resultados = tm.buscarProductosPorNombre("poción");
-        assertEquals(1, resultados.size());
-        assertEquals("Poción de vida", resultados.get(0).getNombre());
+    public void testGetProductoPorCategoria() {
+        List<Objeto> armas = this.tm.getProductosPorCategoria(CategoriaObjeto.ARMAS);
+        assertEquals(1, armas.size());
+        assertEquals("Espada", armas.get(0).getNombre());
     }
 
     @Test
-    public void testComprarProducto() {
-        boolean comprado = tm.comprarProducto("1", "Miguel");
-        assertTrue(comprado);
+    public void testGetProductoPorId() {
+        Objeto o = this.tm.getProductoPorId("2");
+        assertNotNull(o);
+        assertEquals("Armadura", o.getNombre());
     }
 
     @Test
-    public void testListarProductosPorSeccion() {
-        List<Producto> productos = tm.listarProductosPorSeccion("skins");
-        assertEquals(2, productos.size());
+    public void testDeleteProducto() {
+        this.tm.deleteProducto("3");
+        assertNull(this.tm.getProductoPorId("3"));
+        assertEquals(2, this.tm.getAllProductos().size());
     }
-
-    @Test
-    public void testListarProductos() {
-        List<Producto> todos = tm.listarProductos();
-        assertEquals(3, todos.size());
-    }
-
 }
