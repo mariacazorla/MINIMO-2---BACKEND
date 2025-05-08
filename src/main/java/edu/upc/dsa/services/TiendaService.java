@@ -87,6 +87,22 @@ public class TiendaService {
     }
 
     @GET
+    @ApiOperation(value = "Obtener producto aleatorio", notes = "Devuelve un producto aleatorio de la tienda")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Producto aleatorio obtenido", response = Objeto.class),
+            @ApiResponse(code = 404, message = "No hay productos disponibles")
+    })
+    @Path("/productoAleatorio")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductoAleatorio() {
+        Objeto producto = this.tm.getProductoAleatorio();
+        if (producto == null) {
+            return Response.status(404).entity("{\"error\":\"No hay productos disponibles\"}").build();
+        }
+        return Response.status(200).entity(producto).build();
+    }
+
+    @GET
     @ApiOperation(value = "Obtener categorías disponibles", notes = "Devuelve todas las categorías existentes")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Categorías obtenidas", response = String.class),

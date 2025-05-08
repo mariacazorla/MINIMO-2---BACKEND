@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TiendaManagerImpl implements TiendaManager{
@@ -48,6 +49,20 @@ public class TiendaManagerImpl implements TiendaManager{
                 .orElse(null);
         logger.info("Producto por id_producto:" + id_producto + " es " + Producto);
         return Producto;
+    }
+
+    @Override
+    public Objeto getProductoAleatorio() {
+        if (productos.isEmpty()) {
+            logger.warn("No hay productos disponibles para seleccionar uno aleatorio.");
+            return null;
+        }
+        Random rand = new Random();
+        int index = rand.nextInt(productos.size());
+        Objeto productoAleatorio = productos.get(index);
+        logger.info("Producto aleatorio seleccionado: " + productoAleatorio);
+        return productoAleatorio;
+
     }
 
     @Override
