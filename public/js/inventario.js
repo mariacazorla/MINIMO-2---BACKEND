@@ -20,10 +20,9 @@ function cargarInventario() {
             const inventarioList = $('#inventario-list');
             inventarioList.empty(); // Limpiar lista previa
             inventario.forEach(objeto => {
-                // Verificar si no existe descripción
-                const descripcion = objeto.descripcion || "Descripción no disponible"; // Valor predeterminado
                 // Verificar si no existe imagen
-                const imagen = objeto.imagenUrl ? `<img src="${objeto.imagenUrl}" class="card-img-top" alt="${objeto.nombre}">` : "<div class='no-image'>Imagen no disponible</div>";
+                const imagenUrl = objeto.imagen || "img/objeto.png";
+                const imagen = `<img src="${imagenUrl}" class="card-img-top" alt="${objeto.nombre}">`;
 
                 inventarioList.append(`
                     <div class="col-12 col-md-4 mb-4">
@@ -31,7 +30,7 @@ function cargarInventario() {
                             ${imagen} <!-- Mostrar imagen o mensaje de "Imagen no disponible" -->
                             <div class="card-body">
                                 <h5 class="card-title">${objeto.nombre}</h5>
-                                <p class="card-text">${descripcion}</p>
+                                <p class="card-text">${objeto.descripcion}</p>
                                 <p class="card-text"><strong>Precio:</strong> ${objeto.precio} monedas</p>
                             </div>
                         </div>

@@ -18,7 +18,7 @@ public interface TiendaManager {
 
     // Agrega un nuevo producto a la tienda
     Objeto addProducto(Objeto producto);
-    Objeto addProducto(String id_objeto, String nombre, int precio, CategoriaObjeto categoria);
+    Objeto addProducto(String id_objeto, String nombre, int precio, String imagen, String descripcion, CategoriaObjeto categoria);
 
 
     // Elimina un producto de la tienda

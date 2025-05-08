@@ -6,3 +6,8 @@
     color: #888;
     font-size: 14px;
 }
+.card-img-top {
+    max-height: 180px;
+    object-fit: cover;
+    width: 100%;
+}

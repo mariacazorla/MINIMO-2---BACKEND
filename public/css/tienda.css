@@ -11,3 +11,7 @@
 .card:hover {
     transform: scale(1.03);
 }
+.card-img-top {
+    max-height: 180px;
+    object-fit: cover;
+}

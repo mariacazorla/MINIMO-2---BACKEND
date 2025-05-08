@@ -86,11 +86,13 @@ function cargarProductos(categoria = "") {
         $("#productos").append(`
           <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
-              <div class="card-body">
+              <img src="${p.imagen}" class="card-img-top" alt="${p.nombre}" onerror="this.src='img/objeto.png';">
+              <div class="card-body d-flex flex-column">
                 <h5 class="card-title">${p.nombre}</h5>
+                <p class="card-text">${p.descripcion}</p>
                 <p class="card-text">Precio: ${p.precio} monedas</p>
                 <p class="card-text"><span class="badge bg-secondary">${p.categoria}</span></p>
-                <button class="btn btn-primary agregar-btn" data-id="${p.id_objeto}">Agregar</button>
+                <button class="btn btn-primary mt-auto agregar-btn" data-id="${p.id_objeto}">Agregar</button>
               </div>
             </div>
           </div>`);
@@ -123,7 +125,12 @@ function cargarCarrito() {
       total += o.precio;
       tbody.append(`
         <tr>
-          <td>${o.nombre}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <img src="${o.imagen}" alt="${o.nombre}" class="img-thumbnail me-2" style="width: 50px; height: 50px; object-fit: cover;" onerror="this.src='img/objeto.png';">
+              <div>${o.nombre}</div>
+            </div>
+          </td>
           <td>${o.precio}</td>
           <td>${o.categoria}</td>
           <td><button class="btn btn-danger btn-sm quitar-btn" data-id="${o.id_objeto}">🗑</button></td>

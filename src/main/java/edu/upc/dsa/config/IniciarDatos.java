@@ -22,9 +22,9 @@ public class IniciarDatos {
         }
 
         if (tm.sizeProductos() == 0 ) {
-            tm.addProducto("1","Espada", 30, CategoriaObjeto.ARMAS);
-            tm.addProducto("2", "Armadura", 50, CategoriaObjeto.ARMADURAS);
-            tm.addProducto("3", "Poción", 20, CategoriaObjeto.POCIONES);
+            tm.addProducto("1","Espada", 30, "/img/espada.jpg", "Una espada", CategoriaObjeto.ARMAS);
+            tm.addProducto("2", "Armadura", 50, "/img/armadura.png", "Una armadura", CategoriaObjeto.ARMADURAS);
+            tm.addProducto("3", "Poción", 20, "/img/pocion.png", "Una pocion", CategoriaObjeto.POCIONES);
         }
     }
 

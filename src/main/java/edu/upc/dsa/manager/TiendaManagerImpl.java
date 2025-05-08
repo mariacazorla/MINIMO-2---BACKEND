@@ -57,8 +57,8 @@ public class TiendaManagerImpl implements TiendaManager{
     }
 
     @Override
-    public Objeto addProducto(String id_objeto, String nombre, int precio, CategoriaObjeto categoria) {
-        return this.addProducto(new Objeto(id_objeto, nombre, precio, categoria));
+    public Objeto addProducto(String id_objeto, String nombre, int precio, String imagen, String descripcion, CategoriaObjeto categoria) {
+        return this.addProducto(new Objeto(id_objeto, nombre, precio, imagen, descripcion, categoria));
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TiendaManagerImpl implements TiendaManager{
     @Override
     public int sizeProductos() {
         List<Objeto> productos = this.productos;
-        logger.info(productos.size());
+        //logger.info(productos.size());
         return productos.size();
     }
 }
