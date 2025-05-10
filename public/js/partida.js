@@ -1,55 +1,57 @@
-// Detecta si estamos en el emulador o en la PC
 const isEmulator = /Android/i.test(navigator.userAgent);
-
-// Usar la IP correcta según el caso
 const BASE_URL = isEmulator ? "http://10.0.2.2:8080/dsaApp" : "http://localhost:8080/dsaApp";
-
 const token = localStorage.getItem("token");
-// Función para hacer peticiones AJAX con token
+
+function mostrarSpinner() {
+  $("#spinner").show();
+}
+function ocultarSpinner() {
+  $("#spinner").hide();
+}
+
+// Manejo de errores centralizado
+function manejarError(xhr, status, error) {
+  console.error("Error:", xhr.responseText);
+  let mensaje = "Error desconocido.";
+  try {
+    mensaje = JSON.parse(xhr.responseText).error || mensaje;
+  } catch (e) {}
+  alert(mensaje);
+}
+
+// AJAX con token + spinner automático
 function ajaxConToken(opciones) {
   opciones.headers = opciones.headers || {};
   opciones.headers["Authorization"] = "Bearer " + token;
-  return $.ajax(opciones);
+  mostrarSpinner();
+  return $.ajax(opciones).always(ocultarSpinner);
 }
 
-function crearPartida(){
+// Crear nueva partida
+function crearPartida() {
   ajaxConToken({
     url: BASE_URL + "/partidas",
-    type: "POST",
-    success: function () {
-      mostrarPartidas();
-    },
-    error: function (xhr, status, error) {
-      console.error("Error:", xhr.responseText);
-      console.error("Estado:", status);
-      console.error("Detalles del error:", error);
-      mostrarMensaje("Error al crear partidas. Por favor, intente más tarde.", "error");
-    }
-  });
+    type: "POST"
+  }).done(() => {
+    mostrarPartidas();
+  }).fail(manejarError);
 }
 
+// Obtener partidas del usuario
 function mostrarPartidas() {
-    ajaxConToken({
-        url: BASE_URL + "/partidas",
-        type: "GET",
-        success: function (partidas) {
-          if (!partidas || partidas.length === 0) {
-            console.log("No hay partidas.");
-            filasPartidas(partidas);
-          } else {
-            filasPartidas(partidas);
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error("Error:", xhr.responseText);
-          console.error("Estado:", status);
-          console.error("Detalles del error:", error);
-          mostrarMensaje("Error al cargar partidas. Por favor, intente más tarde.", "error");
-        }
-      });
+  ajaxConToken({
+    url: BASE_URL + "/partidas",
+    type: "GET"
+  }).done(partidas => {
+    if (!partidas || partidas.length === 0) {
+      console.log("No hay partidas.");
+    }
+    filasPartidas(partidas);
+  }).fail(manejarError);
 }
-function filasPartidas(partidas){
-  console.log(partidas);
+
+// Pintar tarjetas de partidas
+function filasPartidas(partidas) {
   const contenedor = $("#contenedor-partidas");
   contenedor.empty();
 
@@ -76,46 +78,44 @@ function filasPartidas(partidas){
   });
 }
 
-function eliminarPartida(id){
+// Eliminar una partida
+function eliminarPartida(id) {
   ajaxConToken({
     url: BASE_URL + "/partidas/" + id,
-    type: "DELETE",
-    success: function () {
-      mostrarPartidas();
-    },
-    error: function (xhr, status, error) {
-      console.error("Error:", xhr.responseText);
-      console.error("Estado:", status);
-      console.error("Detalles del error:", error);
-      mostrarMensaje("Error al eliminar la partida. Por favor, intente más tarde.", "error");
-    }
-  });
+    type: "DELETE"
+  }).done(() => {
+    mostrarPartidas();
+  }).fail(manejarError);
 }
 
+// Inicializar
 mostrarPartidas();
 
-document.getElementById("crear").addEventListener("click", function () {
-  crearPartida();
-});
-document.getElementById("volver").addEventListener("click", function () {
-  localStorage.removeItem("token"); // Elimina el token
+// Botón de crear partida
+$("#crear").on("click", crearPartida);
+
+// Botón de cerrar sesión
+$("#volver").on("click", () => {
+  localStorage.removeItem("token");
   alert("Sesión cerrada correctamente.");
   window.location.href = "/";
 });
 
+// Botón de eliminar partida
 $(document).on("click", ".eliminar-btn", function () {
   const id = $(this).data("id");
-  const confirmado = window.confirm("¿Estás seguro de que deseas eliminar esta partida?");
-  if (confirmado) {
+  if (window.confirm("¿Estás seguro de que deseas eliminar esta partida?")) {
     eliminarPartida(id);
   }
 });
 
+// Botón de ir a la tienda
 $(document).on("click", ".tienda-btn", function () {
   const id = $(this).data("id");
   window.location.href = `tienda.html?id_partida=${id}`;
 });
 
+// Botón de ir al inventario
 $(document).on("click", ".inventario-btn", function () {
   const id = $(this).data("id");
   window.location.href = `inventario.html?id_partida=${id}`;

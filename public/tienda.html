@@ -12,48 +12,55 @@
   <script src="js/tienda.js" defer></script>
 </head>
 <body>
-    <div class="container my-4">
-        <h1 class="text-center">Tienda del Guerrero</h1>
-        <!-- Mostrar las monedas disponibles de forma atractiva -->
-        <div id="monedasDisponibles" class="text-center mb-4">
-          <span class="fs-3 fw-bold">💰</span> 
-          <span id="monedasCantidad" class="fs-4">0 monedas</span>
+  <div class="container my-4">
+      <h1 class="text-center">Tienda del Guerrero</h1>
+      <!-- Mostrar las monedas disponibles de forma atractiva -->
+      <div id="monedasDisponibles" class="text-center mb-4">
+        <span class="fs-3 fw-bold">💰</span> 
+        <span id="monedasCantidad" class="fs-4">0 monedas</span>
+      </div>
+      <div id="categorias" class="my-3"></div>
+      <div id="productos" class="row g-4"></div>
+  </div>
+
+  <!-- Botón flotante del carrito -->
+  <button id="btnCarrito" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle">
+      🛒
+  </button>
+
+  <!-- Modal del carrito -->
+  <div class="modal fade" id="modalCarrito" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Carrito</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div id="categorias" class="my-3"></div>
-        <div id="productos" class="row g-4"></div>
-    </div>
-
-    <!-- Botón flotante del carrito -->
-    <button id="btnCarrito" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle">
-        🛒
-    </button>
-
-    <!-- Modal del carrito -->
-    <div class="modal fade" id="modalCarrito" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Carrito</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <table class="table">
-              <thead><tr><th>Nombre</th><th>Precio</th><th>Categoría</th><th></th></tr></thead>
-              <tbody id="tablaCarrito"></tbody>
-            </table>
-            <div class="text-end fw-bold">Total: <span id="totalCarrito">0</span> monedas</div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button id="comprarBtn" class="btn btn-success">Comprar</button>
-          </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead><tr><th>Nombre</th><th>Precio</th><th>Categoría</th><th></th></tr></thead>
+            <tbody id="tablaCarrito"></tbody>
+          </table>
+          <div class="text-end fw-bold">Total: <span id="totalCarrito">0</span> monedas</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="comprarBtn" class="btn btn-success">Comprar</button>
         </div>
       </div>
     </div>
-    <!-- Botón de redirección a partida -->
-    <div class="text-center mt-4">
-    <button id="irPartidaBtn" class="btn btn-secondary">Ir a la Partida</button>
+  </div>
+
+  <!-- Botón de redirección a partida -->
+  <div class="text-center mt-4">
+  <button id="irPartidaBtn" class="btn btn-secondary">Ir a la Partida</button>
+  </div>
+
+  <!-- Spinner de carga -->
+  <div id="spinner" class="spinner-overlay d-none">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
   </div>
 </body>
 </html>
-
