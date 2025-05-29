@@ -5,11 +5,11 @@ import edu.upc.dsa.manager.TiendaManagerImpl;
 import edu.upc.dsa.manager.UsuarioManager;
 import edu.upc.dsa.manager.UsuarioManagerImpl;
 import edu.upc.dsa.models.CategoriaObjeto;
+import edu.upc.dsa.models.Insignia;
 
 public class IniciarDatos {
 
     public static void init() {
-        // Obtener instancias de los managers
         UsuarioManager um = UsuarioManagerImpl.getInstance();
         TiendaManager tm = TiendaManagerImpl.getInstance();
 
@@ -21,11 +21,20 @@ public class IniciarDatos {
             um.addUsuario("Diego", "1234");
         }
 
+        // Cargar productos de la tienda si no hay ninguno
         if (tm.sizeProductos() == 0 ) {
             tm.addProducto("1","Espada", 30, "/img/espada.jpg", "Una espada", CategoriaObjeto.ARMAS);
             tm.addProducto("2", "Armadura", 50, "/img/armadura.png", "Una armadura", CategoriaObjeto.ARMADURAS);
             tm.addProducto("3", "Poción", 20, "/img/pocion.png", "Una pocion", CategoriaObjeto.POCIONES);
         }
-    }
 
+        // Cargar insignias de prueba en memoria (si aún no existen)
+        if (um.getInsignias("Paco").isEmpty()) {
+            um.addInsigniaToUser("Paco", new Insignia("Maestro del universo", "/img/maestro.png"));
+            um.addInsigniaToUser("Paco", new Insignia("Becario enfurismado", "/img/becario.png"));
+        }
+        if (um.getInsignias("Ana").isEmpty()) {
+            um.addInsigniaToUser("Ana", new Insignia("Dependienta estrella", "/img/dependienta.png"));
+        }
+    }
 }

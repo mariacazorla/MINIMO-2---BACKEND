@@ -8,12 +8,16 @@ public class Usuario {
     private String password;
     private List<Partida> partidas;
 
+    // Nueva lista de insignias
+    private List<Insignia> insignias;
+
     public Usuario() {
         partidas = new ArrayList<>();
+        insignias = new ArrayList<>();
     }
 
     public Usuario(String nombreUsu, String password) {
-        this(); // llama al constructor vacío y así inicializa partidas
+        this(); // inicializa partidas e insignias
         setNombreUsu(nombreUsu);
         setPassword(password);
     }
@@ -27,9 +31,14 @@ public class Usuario {
     public List<Partida> getPartidas() { return partidas; }
     public void setPartidas(List<Partida> partidas) { this.partidas = partidas; }
 
+    // Getters y setters para insignias
+    public List<Insignia> getInsignias() { return insignias; }
+    public void setInsignias(List<Insignia> insignias) { this.insignias = insignias; }
+
     @Override
     public String toString() {
-        return "Usuario [nombreUsu=" + nombreUsu + ", partidas=" + partidas + "]";
+        return "Usuario [nombreUsu=" + nombreUsu +
+                ", partidas=" + partidas +
+                ", insignias=" + insignias + "]";
     }
 }
-

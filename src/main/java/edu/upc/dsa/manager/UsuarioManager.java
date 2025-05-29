@@ -4,6 +4,8 @@ import edu.upc.dsa.exceptions.usuario.PasswordNotMatchException;
 import edu.upc.dsa.exceptions.usuario.UsuarioNotFoundException;
 import edu.upc.dsa.exceptions.usuario.UsuarioYaExisteException;
 import edu.upc.dsa.models.Usuario;
+import edu.upc.dsa.models.Insignia;
+
 
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface UsuarioManager {
     void clear();
     int sizeUsuarios();
 
+    List<Insignia> getInsignias(String userId);
+    void addInsigniaToUser(String userId, Insignia insignia);
 }
