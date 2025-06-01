@@ -9,6 +9,7 @@ import edu.upc.dsa.models.Insignia;
 
 public class IniciarDatos {
 
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     public static void init() {
         UsuarioManager um = UsuarioManagerImpl.getInstance();
         TiendaManager tm = TiendaManagerImpl.getInstance();
@@ -30,11 +31,11 @@ public class IniciarDatos {
 
         // Cargar insignias de prueba en memoria (si aún no existen)
         if (um.getInsignias("Paco").isEmpty()) {
-            um.addInsigniaToUser("Paco", new Insignia("Maestro del universo", "/img/maestro.png"));
-            um.addInsigniaToUser("Paco", new Insignia("Becario enfurismado", "/img/becario.png"));
+            um.addInsigniaToUser("Paco", new Insignia("Maestro del universo", BASE_URL +"/img/maestro.png"));
+            um.addInsigniaToUser("Paco", new Insignia("Becario enfurismado", BASE_URL +"/img/becario.png"));
         }
         if (um.getInsignias("Ana").isEmpty()) {
-            um.addInsigniaToUser("Ana", new Insignia("Dependienta estrella", "/img/dependienta.png"));
+            um.addInsigniaToUser("Ana", new Insignia("Dependienta estrella", BASE_URL +"/img/dependienta.png"));
         }
     }
 }
